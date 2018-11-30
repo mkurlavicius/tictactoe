@@ -23,20 +23,20 @@ class MovesController extends Controller
         if($game->moves()->save($move)) {
             if($game->humanHasWon()) {
                 $game->finish();
-                $request->session()->flash('success', "Your move is ${move}. Congratulations, you have won!!!");
+                $request->session()->flash('success', "Your move is ${move}. Congratulations, you have won!!! " . $this->playLinkWithText("Wanna play again?"));
                 $request->session()->reflash();
             } else {
                 if($game->hasEndedNoWinner()) {
-                    $request->session()->flash('warning', "Player moves ${move}. No moves left. Game is finished.");
+                    $request->session()->flash('warning', "Player moves ${move}. No moves left. Game is finished. " . $this->playLinkWithText("Wanna play again?"));
                 } else {
                     $computersMove = (new Computer())->move($game);
                     if($game->moves()->save($computersMove)) {
                         if($game->computerHasWon()) {
                             $game->finish();
-                            $request->session()->flash('warning', "Player moves ${move}. Computer responds ${computersMove} and wins. Try another game");
+                            $request->session()->flash('warning', "Player moves ${move}. Computer responds ${computersMove} and wins. " . $this->playLinkWithText("Try another game."));
                         } else {
                             if($game->hasEndedNoWinner()) {
-                                $request->session()->flash('success', "Player moves ${move}. Computer responds ${computersMove}. No moves left. Game is finished.");
+                                $request->session()->flash('success', "Player moves ${move}. Computer responds ${computersMove}. No moves left. Game is finished." . $this->playLinkWithText("Wanna play again?"));
                             } else {
                                 $request->session()->flash('success', "Player moves ${move}. Computer responds ${computersMove}. Your turn.");
                             }
@@ -52,6 +52,11 @@ class MovesController extends Controller
             $request->session()->reflash();
             return redirect()->action('GamesController@show', ['id' => $game->id]);
         }
+    }
+
+    protected function playLinkWithText($text)
+    {
+        return link_to_action('GamesController@create', $text);
     }
 
 }

@@ -30,7 +30,7 @@ class GamesController extends Controller
     public function index(Request $request)
     {
         $player = $this->getPlayer();
-        $games  = $player->games()->get();
+        $games  = $player->games()->paginate(10);
 
 
         return view('games.index', [

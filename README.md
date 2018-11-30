@@ -61,7 +61,10 @@
     
     * Undo. Just update the squares of the last couple moves. This undo mechanic could also be 
     merged/implemented as another type of a 'move'.
-    
-    * Pagination of your games.
+
     
 - [x] Unit Tests
+
+    * Simply creating arbitrary size game, checking if it has all the squares with the right status.
+    
+    * Simulating a game between two computers, and make sure it resolves to expected state.

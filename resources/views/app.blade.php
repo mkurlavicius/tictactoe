@@ -14,33 +14,37 @@
 </head>
 
     <body>
-    <div class="card">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    {{ link_to_action('GamesController@index', 'All your games', [], ['class' => 'nav-link active']) }}
-                </li>
-                <li class="nav-item">
-                    <a href="https://github.com/mkurlavicius/tictactoe" class="nav-link">Code On Github</a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                @section('card-title')
-                    Tic Tac Toe
+        <div class="card">
+            <div class="card-header">
+                @section('top-menu')
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            {{ link_to_action('GamesController@index', 'All your games', [], ['class' => 'nav-link nav-active']) }}
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://github.com/mkurlavicius/tictactoe" class="nav-link">Code On Github</a>
+                        </li>
+                    </ul>
                 @show
-            </h5>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    @section('card-title')
+                        Tic Tac Toe
+                    @show
+                </h5>
 
-            @foreach (['danger', 'warning', 'success', 'info'] as $key)
+                @foreach (['danger', 'warning', 'success', 'info'] as $key)
 
-                @if (Session::has($key))
-                    <p class="alert alert-{{ $key }}">{{ Session::get($key) }}</p>
-                @endif
+                    @if (Session::has($key))
+                        <p class="alert alert-{{ $key }}">{!! Session::get($key) !!}</p>
+                    @endif
 
-            @endforeach
+                @endforeach
 
-            @yield('content')
+
+                @yield('content')
+            </div>
         </div>
     </body>
 

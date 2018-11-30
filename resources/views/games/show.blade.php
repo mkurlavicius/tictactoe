@@ -1,5 +1,20 @@
 @extends('app')
 
+@section('top-menu')
+    <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+            {{ link_to_action('GamesController@index', 'All your games', [], ['class' => 'nav-link']) }}
+        </li>
+
+        <li class="nav-item">
+            {{ link_to_action('GamesController@show', ('Current Game ' . "(" . $game->id . ")"), ['id' => $game->id], ['class' => 'nav-link active']) }}
+        </li>
+
+        <li class="nav-item">
+            <a href="https://github.com/mkurlavicius/tictactoe" class="nav-link">Code On Github</a>
+        </li>
+    </ul>
+@endsection
 
 @section('content')
 
@@ -59,7 +74,7 @@
                                                 @else
                                                     <button type="button" class="btn btn-sq btn-primary" disabled>{{ $square }}</button>
                                                 @endif
-                                                
+
                                             @endif
 
                                         </td>
