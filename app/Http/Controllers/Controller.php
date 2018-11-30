@@ -15,13 +15,20 @@ class Controller extends BaseController
     protected function getPlayer()
     {
         if($playerId = session()->has('player_id')) {
-            $player = Player::findOrFail($playerId);
-            return $player;
-        } else {
-            $player = new player();
-            $player->save();
-            session()->put('player_id', $player->id);
-            return $player;
+            $player = Player::find($playerId);
+            if(!empty($player)) {
+                return $player;
+            }
+            return $this->newPlayerIntheSession();
         }
+        return $this->newPlayerIntheSession();
+    }
+
+    private function newPlayerIntheSession()
+    {
+        $player = new Player();
+        $player->save();
+        session()->put('player_id', $player->id);
+        return $player;
     }
 }

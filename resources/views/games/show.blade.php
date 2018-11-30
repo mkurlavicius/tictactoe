@@ -32,7 +32,7 @@
                                                 {{ Form::model($move, ['route' => array('moves.store')]) }}
                                                 {{ Form::text('as_string', $square->__toMove(), ['class' => 'd-none']) }}
                                                 {{ Form::hidden('game_id', $game->id) }}
-                                                {{ Form::number('player',    App\Square::Human, ['class' => 'd-none']) }}
+                                                {{ Form::number('player',  App\Square::Human, ['class' => 'd-none']) }}
 
                                                 @if($game->is_finished)
                                                     {{ Form::submit(' ', ['class' => 'btn btn-sq btn-primary', 'disabled' => true]) }}
@@ -45,13 +45,21 @@
 
                                             @elseif($square->status == \App\Square::Human)
 
+                                                @if($square->is_winning)
+                                                    <button type="button" class="btn btn-sq btn-success" disabled>{{ $square }}</button>
+                                                @else
+                                                    <button type="button" class="btn btn-sq btn-primary" disabled>{{ $square }}</button>
+                                                @endif
 
-                                                <button type="button" class="btn btn-sq btn-primary" disabled>{{ $square }}</button>
 
                                             @elseif($square->status == \App\Square::Computer)
 
-                                                <button type="button" class="btn btn-sq btn-primary" disabled>{{ $square }}</button>
-
+                                                @if($square->is_winning)
+                                                    <button type="button" class="btn btn-sq btn-danger" disabled>{{ $square }}</button>
+                                                @else
+                                                    <button type="button" class="btn btn-sq btn-primary" disabled>{{ $square }}</button>
+                                                @endif
+                                                
                                             @endif
 
                                         </td>

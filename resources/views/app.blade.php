@@ -20,6 +20,9 @@
                 <li class="nav-item">
                     {{ link_to_action('GamesController@index', 'All your games', [], ['class' => 'nav-link active']) }}
                 </li>
+                <li class="nav-item">
+                    <a href="https://github.com/mkurlavicius/tictactoe" class="nav-link">Code On Github</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">

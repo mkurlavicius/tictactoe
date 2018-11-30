@@ -9,7 +9,7 @@
 
         <div class="form-group">
             {{ Form::label('size', 'Size of the board') }}
-            {{ Form::number('size', 3, ['class' => 'form-control']) }}
+            {{ Form::select('size', ['3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8'],[], ['class' => 'form-control']) }}
         </div>
 
         <div class="form-group">

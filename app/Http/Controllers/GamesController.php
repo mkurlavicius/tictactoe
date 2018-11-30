@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller as Controller;
 use Illuminate\Http\Request         as Request;
 use App\Game                        as Game;
 use App\Player                      as Player;
+use App\Computer                    as Computer;
 use Illuminate\Support\Facades\Input;
 
 class GamesController extends Controller
@@ -30,6 +31,8 @@ class GamesController extends Controller
     {
         $player = $this->getPlayer();
         $games  = $player->games()->get();
+
+
         return view('games.index', [
             'games'  => $games,
             'player' => $player
@@ -49,7 +52,17 @@ class GamesController extends Controller
         $game->whoGoes(Input::get('started_by'));
 
         if($player->games()->save($game)) {
-            $request->session()->flash('success', 'Lets play!!!');
+            if($game->started_by == Player::Computer) {
+                $computer          = new Computer();
+                $computersMove     = $computer->move($game);
+                $rawComputerMove   = $computersMove->__toCoordinate()->__toLetterNumber();
+                if($game->moves()->save($computersMove)) {
+                    $request->session()->flash('success', "Computer started with a move ${rawComputerMove}. Your turn!!!");
+                }
+            } else {
+                $request->session()->flash('success', "Lets play. Your turn!!!");
+            }
+
             $request->session()->reflash();
             return redirect()->action('GamesController@show', ['id' => $game->id]);
         } else {

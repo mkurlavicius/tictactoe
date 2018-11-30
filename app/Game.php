@@ -81,11 +81,14 @@ class Game extends Model
 
     public function randomEmptySquare()
     {
-        return $this
+        $emptySquares = $this
             ->squares()
             ->where(['status' => Square::Empty])
-            ->get()
-            ->random();
+            ->get();
+        if($emptySquares->count() > 0) {
+            return $emptySquares->random();
+        }
+        return null;
     }
 
     public function findSquareByCoordinate(Coordinate $coordinate)
@@ -166,6 +169,11 @@ class Game extends Model
             }
         }
         return false;
+    }
+
+    public function hasEndedNoWinner()
+    {
+        return !$this->randomEmptySquare();
     }
 
     public function updateWinningSquares($line) {

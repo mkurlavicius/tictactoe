@@ -21,11 +21,16 @@ class Move extends Model
         return new Coordinate($this->as_string);
     }
 
+    public function __toString()
+    {
+        return $this->__toCoordinate()->__toLetterNumber();
+    }
+
     public function updateSquare()
     {
         $coordinate = $this->__toCoordinate();
-        $game = $this->game()->first();
-        $square = $game->findSquareByCoordinate($coordinate);
+        $game       = $this->game()->first();
+        $square     = $game->findSquareByCoordinate($coordinate);
         $square->status = $this->player;
         $square->save();
     }

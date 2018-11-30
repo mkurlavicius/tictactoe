@@ -21,21 +21,27 @@ class MovesController extends Controller
         $move->player    = Player::Human;
 
         if($game->moves()->save($move)) {
-            $playersMove = $move->__toCoordinate()->__toLetterNumber();
             if($game->humanHasWon()) {
                 $game->finish();
-                $request->session()->flash('success', "Your move is ${playersMove}. Congratulations, you have won!!!");
+                $request->session()->flash('success', "Your move is ${move}. Congratulations, you have won!!!");
                 $request->session()->reflash();
             } else {
-                $computer          = new Computer();
-                $computersMove     = $computer->move($game);
-                if($game->moves()->save($computersMove)) {
-                    $rawComputerMove   = $computersMove->__toCoordinate()->__toLetterNumber();
-                    if($game->computerHasWon()) {
-                        $game->finish();
-                        $request->session()->flash('warning', "Player moves ${playersMove}. Computer responds ${rawComputerMove} and wins. Try another game");
-                    } else {
-                        $request->session()->flash('success', "Player moves ${playersMove}. Computer responds ${rawComputerMove}.");
+                if($game->hasEndedNoWinner()) {
+                    $request->session()->flash('warning', "Player moves ${move}. No moves left. Game is finished.");
+                } else {
+                    $computersMove = (new Computer())->move($game);
+                    if($game->moves()->save($computersMove)) {
+                        if($game->computerHasWon()) {
+                            $game->finish();
+                            $request->session()->flash('warning', "Player moves ${move}. Computer responds ${computersMove} and wins. Try another game");
+                        } else {
+                            if($game->hasEndedNoWinner()) {
+                                $request->session()->flash('success', "Player moves ${move}. Computer responds ${computersMove}. No moves left. Game is finished.");
+                            } else {
+                                $request->session()->flash('success', "Player moves ${move}. Computer responds ${computersMove}. Your turn.");
+                            }
+
+                        }
                     }
                 }
             }
