@@ -14,6 +14,8 @@ class Game extends Model
 
     protected $fillable = ['started_by', 'size'];
 
+    protected $visible = ['id', 'started_by', 'size', 'squares', 'moves'];
+
     public function player()
     {
         return $this->belongsTo('App\Player');
@@ -48,6 +50,11 @@ class Game extends Model
     {
         $this->is_finished = true;
         $this->save();
+    }
+
+    public function lastMove()
+    {
+        return $this->moves()->orderBy('number', 'desc')->first()->get();
     }
 
     public function iterateCoordinates($functionForCoordinates)
@@ -132,21 +139,6 @@ class Game extends Model
         } else {
             return true;
         }
-    }
-
-
-    public function movesPlayer($move)
-    {
-        $playersMove = new Move(['asString' => $move, 'player' => Player::Human]);
-        $this->moves()->save($playersMove);
-    }
-
-    public function movesComputer()
-    {
-        $asString = (new Computer($this))->move();
-        echo "Computer chose the move (${asString})";
-        $computersMove = new Move(['asString' => $asString, 'player' => Player::Computer]);
-        $this->moves()->save($computersMove);
     }
 
     public function humanHasWon()

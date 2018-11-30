@@ -13,7 +13,7 @@ class Move extends Model
     }
 
     protected $fillable = [
-        'x', 'y', 'player', 'as_string', 'message'
+        'x', 'y', 'player', 'as_string',
     ];
 
     public function __toCoordinate()

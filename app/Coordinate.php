@@ -47,7 +47,7 @@ class Coordinate
     {
         if (preg_match(self::LetterOneTen, $from_string)) {
             list($letter, $number) = preg_split('//u', $from_string,-1, PREG_SPLIT_NO_EMPTY);
-            $this->x = self::Letters[$letter];
+            $this->x = self::Letters[$letter] + 1;
             $this->y = intval($number);
         } elseif (preg_match(self::ZeroNine, $from_string)) {
             list($x, $y) = preg_split('//u', $from_string,-1, PREG_SPLIT_NO_EMPTY);

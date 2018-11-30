@@ -14,9 +14,7 @@ class Square extends Model
     const Human      = Player::Human;
     const Opponent   = Player::Opponent;
 
-    protected $fillable = [
-        'x', 'y', 'status',
-    ];
+    protected $fillable = ['x', 'y', 'status'];
 
     public $timestamps = false;
 

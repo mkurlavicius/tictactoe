@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Player as Player;
 use App\Game   as Game;
 use App\Square as Square;
+use App\Move   as Move;
 
 class GameTest extends TestCase
 {
@@ -28,6 +29,14 @@ class GameTest extends TestCase
         $this->player->games()->save($this->game);
     }
 
+    protected function getMove($player, $string)
+    {
+        $move = new Move();
+        $move->as_string = $string;
+        $move->player = $player;
+        return $move;
+    }
+
 
     public function testCreatedGameHasAllTheSquares()
     {
@@ -43,9 +52,18 @@ class GameTest extends TestCase
 
     public function testPlayingTheGame()
     {
-//        foreach (range(1, 25) as $moveIndex) {
-//            $this->
-//        }
+
+        $this->game->moves()->save($this->getMove(Player::Human,'00'));
+        $this->game->moves()->save($this->getMove(Player::Computer,'02'));
+        $this->game->moves()->save($this->getMove(Player::Human, '11'));
+        $this->game->moves()->save($this->getMove(Player::Computer, '21'));
+        $this->game->moves()->save($this->getMove(Player::Human, '22'));
+        $this->game->moves()->save($this->getMove(Player::Computer, '31'));
+        $this->game->moves()->save($this->getMove(Player::Human, '33'));
+        $this->game->moves()->save($this->getMove(Player::Computer, '41'));
+        $this->game->moves()->save($this->getMove(Player::Human, '44'));
+
+        $this->assertTrue($this->game->humanHasWon());
     }
 
 

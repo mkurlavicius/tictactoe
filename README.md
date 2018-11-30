@@ -11,11 +11,11 @@
     * Laravel PHP framework. 
     * Mysql database.
     * Apache web server.
-    * Physical server as my iMac with MacOs attached to permanent public ip 
-      (internet provider sells this feature for extra buck) - 212.76.255.185 and
-      listening on port 8080. There is also some network trickery, I had to port forward
-      my internet provider's router to my home network routers, and those to port forward
-      to the exact machine (iMac) on the network.   
+    * Bootstrap
+    * Physical personal server attached to permanent public ip  - 212.76.255.185 and
+      listening on port 8080. There is also some network trickery, the port is forwarded 
+      from internet provider's router to home network routers, and those to 
+      to the exact machine (server) on the network.   
     
 - [x] Documentation
 
@@ -48,6 +48,22 @@
     * Moves@create - Hidden form behind every button to create a new move on click and redirect back
     to Games@show action.
     
+- [x] API
+    
+    As application itself, the API is the same actions 
+    
+    * Api\Games@index - List all games, paginated. 
+        
+    * Api\Games@show  - The game that is played. Json includes squares and moves.
+    
+    * Api\Games@store - For creating the game. Size and who starts (computer, human) are the
+    parameters. Returns the 'message', the 'game' and the 'last_move' in case computer
+    started the game.
+        
+    * Api\Moves@store- creating the 'moves'. The answer is always the 'game' with 'squares' a message
+    and 'last_move', to satisfy the tasks requirements, although its not necessary to have this
+    attribute as all 'moves' could be included in the 'game' and frontend could pick up the last one.
+    
 - [x] Missing Features
 
     * Computer never looses. Its probably possible to devise a strategy and code it with predicates 
@@ -67,4 +83,4 @@
 
     * Simply creating arbitrary size game, checking if it has all the squares with the right status.
     
-    * Simulating a game between two computers, and make sure it resolves to expected state.
+    * Simulating a game 'between two computers', and make sure it resolves to expected state.
