@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('games', 'GameController');
+Route::resource('games', 'GamesController');
+Route::resource('moves', 'MovesController');

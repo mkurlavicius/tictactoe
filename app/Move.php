@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Coordinate as Coordinate;
 
 class Move extends Model
 {
@@ -12,7 +13,7 @@ class Move extends Model
     }
 
     protected $fillable = [
-        'x', 'y', 'player', 'asString', 'message'
+        'x', 'y', 'player', 'as_string', 'message'
     ];
 
     public function __toCoordinate()
@@ -23,17 +24,21 @@ class Move extends Model
     public function updateSquare()
     {
         $coordinate = $this->__toCoordinate();
-        $square = $this
-            ->game()
-            ->board()
-            ->findSquareByCoordinate($coordinate);
+        $game = $this->game()->first();
+        $square = $game->findSquareByCoordinate($coordinate);
         $square->status = $this->player;
         $square->save();
     }
 
     public function setNumber()
     {
-        $lastMove = $this->game->board()->moves()->orderBy('number', 'desc')->first();
+        $lastMove = $this
+            ->game()
+            ->get()
+            ->first()
+            ->moves()
+            ->orderBy('number', 'desc')
+            ->first();
         if(!empty($lastMove)) {
             $this->number = $lastMove->number + 1;
         } else {

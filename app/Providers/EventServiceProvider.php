@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use App\Move;
+use App\Move as Move;
+use App\Game as Game;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,12 +31,16 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
+        Game::created(function($game) {
+            $game->createSquares();
+        });
+
         Move::saving(function($move) {
             $move->updateSquare();
         });
 
         Move::creating(function($move) {
-            $move->setXY();
+            $move->setCoordinate();
             $move->setNumber();
         });
     }

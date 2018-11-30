@@ -2,15 +2,19 @@
 
 namespace App;
 
-use App\Square as Square;
+use Illuminate\Database\Eloquent\Model;
+use App\Game as Game;
 
-
-class Player
+class Player extends Model
 {
-    /* Possible player status
-     */
+
     const Computer = 1;
     const Human    = 2;
     const Opponent = 3;
+
+    public function games()
+    {
+        return $this->hasMany('App\Game');
+    }
 
 }

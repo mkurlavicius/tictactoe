@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMessageToMove extends Migration
+class AddWinningToSquare extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMessageToMove extends Migration
      */
     public function up()
     {
-        Schema::table('moves', function (Blueprint $table) {
-            $table->string('message');
+        Schema::table('squares', function (Blueprint $table) {
+            $table->boolean('is_winning')->default(false);
         });
     }
 
@@ -25,7 +25,7 @@ class AddMessageToMove extends Migration
      */
     public function down()
     {
-        Schema::table('moves', function (Blueprint $table) {
+        Schema::table('squares', function (Blueprint $table) {
             //
         });
     }

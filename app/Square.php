@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Coordinate as Coordinate;
-use App\Player;
+use App\Player     as Player;
 
 class Square extends Model
 {
@@ -18,11 +18,12 @@ class Square extends Model
         'x', 'y', 'status',
     ];
 
+    public $timestamps = false;
 
-    /* Relations - belongs to board */
-    public function board()
+
+    public function game()
     {
-        return $this->belongsTo('App\Board');
+        return $this->belongsTo('App\Game');
     }
 
     public function __toCoordinate()
@@ -31,6 +32,11 @@ class Square extends Model
     }
 
     public function __toMove()
+    {
+        return $this->x . $this->y;
+    }
+
+    public function __toString()
     {
         switch($this->status) {
             case Square::Empty:
